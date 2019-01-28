@@ -3,7 +3,8 @@ pipeline {
     stages {
         stage('Stage 1') {
             steps {
-                sh "ansible-playbook playbooks/web-tls.yml"
+                sh "cd playbooks"
+                sh "ansible-playbook web-tls.yml"
                 echo 'FROM GITHUB ... !!!' 
             }
         }
