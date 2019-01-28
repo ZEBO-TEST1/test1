@@ -9,6 +9,11 @@ pipeline {
                 echo 'FROM GITHUB ... !!!' 
             }
         }
+        stage('Stage KUKU') {
+            steps {
+                sh "id"
+            }
+        }
     }
 }
 
