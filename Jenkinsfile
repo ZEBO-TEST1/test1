@@ -12,7 +12,7 @@ pipeline {
         stage('Stage TESTY') {
             steps {
                 sh "id"
-                sh "test_web.sh"
+                sh "./test_web.sh"
             }
         }
     }
