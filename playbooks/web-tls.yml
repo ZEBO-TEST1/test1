@@ -1,0 +1,37 @@
+-   name: Konfiguracja serwera WWW na platformie Nginx z szyfrowaniem TLS
+    hosts: web 
+#final dev
+    become: True
+    vars:
+        key_file: /etc/nginx/ssl/nginx.key
+        cert_file: /etc/nginx/ssl/nginx.crt
+        conf_file: /etc/nginx/sites-available/default
+        server_name: localhost
+#    vars_files:
+#- "vars/{{ function }}"
+#- "vars/{{ env }}"
+    tasks:
+    -   name: Instalacja ntpdate
+        apt: name=ntpdate update_cache=yes cache_valid_time=3600
+    -   name: Instalacja Nginx
+        apt: name=nginx update_cache=yes cache_valid_time=3600
+    -   name: Tworzenie katalogów dla certyfikatów TLS
+        file: path=/etc/nginx/ssl state=directory
+    -   name: Kopiowanie klucza TLS
+        copy: src=files/nginx.key dest={{ key_file }} owner=root mode=0600
+        notify: Restart Nginx
+    -   name: Kopiowanie certyfikatu TLS
+        copy: src=files/nginx.crt dest={{ cert_file }}
+        notify: Restart Nginx
+    -   name: Kopiowanie pliku konfiguracyjnego Nginx
+        template: src=templates/nginx.conf.j2 dest={{ conf_file }}
+        notify: Restart Nginx
+    -   name: Konfiguracja
+        file: dest=/etc/nginx/sites-enabled/default src={{ conf_file }} state=link
+        notify: Restart Nginx
+    -   name: Kopiowanie index.html
+        template: src=templates/index.html.j2 dest=/usr/share/nginx/html/index.html mode=0644
+    handlers:
+    -   name: Restart Nginx
+        service: name=nginx state=restarted
+
