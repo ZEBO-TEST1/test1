@@ -12,7 +12,7 @@ pipeline {
         stage('Stage TESTY') {
             steps {
                 sh "id"
-                exit 1
+                sh "exit 1"
             }
         }
     }
