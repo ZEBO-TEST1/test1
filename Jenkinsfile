@@ -1,7 +1,7 @@
 pipeline {
     agent any 
     stages {
-        stage('Stage 1') {
+        stage('Stage ANSIBLE') {
             steps {
                 sh "pwd"
                 sh "ls -la"
@@ -9,9 +9,10 @@ pipeline {
                 echo 'FROM GITHUB ... !!!' 
             }
         }
-        stage('Stage KUKU') {
+        stage('Stage TESTY') {
             steps {
                 sh "id"
+                exit 1
             }
         }
     }
