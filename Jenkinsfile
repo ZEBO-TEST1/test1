@@ -1,14 +1,9 @@
 pipeline {
-    agent any 
+    agent { docker { image 'python:3.5.1' } }
     stages {
-        stage('Stage ANSIBLE') {
+        stage('build') {
             steps {
-                sh "ls -la"
-            }
-        }
-        stage('Stage TESTY') {
-            steps {
-                sh "id"
+                sh 'python --version'
             }
         }
     }
